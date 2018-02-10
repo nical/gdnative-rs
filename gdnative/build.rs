@@ -244,17 +244,17 @@ fn godot_type_to_rust(ty: &str) -> Option<Cow<str>> {
         "Vector2" => Some("Vector2".into()),
         "Vector3" => Some("Vector3".into()),
         "Quat" => Some("Quat".into()),
-        "Transform" => None, // TODO:
+        "Transform" => Some("Transform".into()),
         "Transform2D" => Some("Transform2D".into()),
         "Rect2" => Some("Rect2".into()),
         "Rect3" => None, // TODO:
-        "Plane" => None, // TODO:
+        "Plane" => Some("Plane".into()),
         "Basis" => Some("Basis".into()),
         "Color" => Some("Color".into()),
         "NodePath" => Some("NodePath".into()),
         "Variant" => Some("Variant".into()),
+        "AABB" => Some("Aabb".into()),
         "Array" => None, // TODO:
-        "AABB" => None, // TODO:
         "RID" => None, // TODO:
         "Dictionary" => None, // TODO:
         "PoolStringArray" => None, // TODO:
@@ -296,16 +296,15 @@ fn godot_handle_argument_pre<W: Write>(w: &mut W, ty: &str, name: &str, arg: usi
         },
         "Vector2"
         | "Vector3"
+        | "Transform"
         | "Transform2D"
         | "Quat"
+        | "Plane"
+        | "AABB"
+        | "Basis"
         | "Rect2" => {
             writeln!(w, r#"
             argument_buffer[{arg}] = (&{name}) as *const _ as *const _;
-            "#, name = name, arg = arg).unwrap();
-        },
-        "Basis" => {
-            writeln!(w, r#"
-            argument_buffer[{arg}] = (&{name}.0) as *const _ as *const _;
             "#, name = name, arg = arg).unwrap();
         },
         "Color" => {
@@ -398,6 +397,12 @@ fn godot_handle_return_pre<W: Write>(w: &mut W, ty: &str) {
             let ret_ptr = &mut ret as *mut _;
             "#).unwrap();
         },
+        "Transform" => {
+            writeln!(w, r#"
+            let mut ret = sys::godot_transform::default();
+            let ret_ptr = &mut ret as *mut _;
+            "#).unwrap();
+        },
         "Transform2D" => {
             writeln!(w, r#"
             let mut ret = sys::godot_transform2d::default();
@@ -410,15 +415,27 @@ fn godot_handle_return_pre<W: Write>(w: &mut W, ty: &str) {
             let ret_ptr = &mut ret as *mut _;
             "#).unwrap();
         },
-        "Rect2" => {
+        "Plane" => {
             writeln!(w, r#"
-            let mut ret = sys::godot_quat::default();
+            let mut ret = sys::godot_plane::default();
             let ret_ptr = &mut ret as *mut _;
             "#).unwrap();
         },
         "Basis" => {
             writeln!(w, r#"
             let mut ret = sys::godot_basis::default();
+            let ret_ptr = &mut ret as *mut _;
+            "#).unwrap();
+        },
+        "AABB" => {
+            writeln!(w, r#"
+            let mut ret = sys::godot_aabb::default();
+            let ret_ptr = &mut ret as *mut _;
+            "#).unwrap();
+        },
+        "Rect2" => {
+            writeln!(w, r#"
+            let mut ret = sys::godot_rect2::default();
             let ret_ptr = &mut ret as *mut _;
             "#).unwrap();
         },
@@ -476,14 +493,17 @@ fn godot_handle_return_post<W: Write>(w: &mut W, ty: &str) {
                 .into_owned()
             "#).unwrap();
         },
-        "Vector2" | "Vector3" | "Transform2D" | "Quat" | "Rect2" => {
+        "Vector2"
+        | "Vector3"
+        | "Transform"
+        | "Transform2D"
+        | "Quat"
+        | "AABB"
+        | "Rect2"
+        | "Basis"
+        | "Plane" => {
             writeln!(w, r#"
             ::std::mem::transmute(ret)
-            "#).unwrap();
-        },
-        "Basis" => {
-            writeln!(w, r#"
-            Basis(ret)
             "#).unwrap();
         },
         "Color" => {

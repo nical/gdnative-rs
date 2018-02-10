@@ -285,9 +285,6 @@ impl Drop for NodePath {
     }
 }
 
-#[derive(Clone, Copy)]
-pub struct Basis(sys::godot_basis);
-
 pub struct Nothing {
     info: GodotClassInfo,
 }
