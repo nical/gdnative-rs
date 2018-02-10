@@ -48,15 +48,15 @@ macro_rules! gprint_error {
     })
 }
 
-mod internal;
-pub use self::internal::*;
 #[macro_use]
 mod class;
-pub use self::class::*;
+mod internal;
 mod property;
-pub use self::property::*;
-pub mod types;
-
+mod types;
+pub use internal::*;
+pub use property::*;
+pub use class::*;
+pub use types::*;
 
 #[doc(hidden)]
 pub static mut GODOT_API: Option<GodotApi> = None;

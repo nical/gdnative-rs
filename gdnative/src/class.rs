@@ -57,7 +57,7 @@ macro_rules! gdclass_build_export_methods {
                     }
                     let mut offset = 0;
                     $(
-                        let $pname = if let Some(val) = <$pty as $crate::types::GodotType>::from_variant(&mut *(*args).offset(offset)) {
+                        let $pname = if let Some(val) = <$pty as $crate::GodotType>::from_variant(&mut *(*args).offset(offset)) {
                             val
                         } else {
                             gprint_error!("Incorrect parameter type for parameter {}", offset);
@@ -89,7 +89,7 @@ macro_rules! gdclass_build_export_methods {
                             return ret;
                         }
                     };
-                    <$retty as $crate::types::GodotType>::as_variant(&rust_ret)
+                    <$retty as $crate::GodotType>::as_variant(&rust_ret)
                 }
             }
             let method = $crate::sys::godot_instance_method {
@@ -356,12 +356,12 @@ impl <T> GodotRef<T>
     pub fn cast_native<O>(&self) -> Option<GodotRef<O>>
         where O: GodotClass
     {
-        let obj: GodotRef<::types::Object> = GodotRef {
+        let obj: GodotRef<::Object> = GodotRef {
             this: self.this,
-            data: unsafe { ::types::Object::from_object(self.this) },
+            data: unsafe { ::Object::from_object(self.this) },
             reference: false,
         };
-        if let Some(script) = obj.get_script().and_then(|v| v.cast::<::types::NativeScript>()) {
+        if let Some(script) = obj.get_script().and_then(|v| v.cast::<::NativeScript>()) {
             let class = script.get_class_name();
             if class == O::godot_name() {
                 Some(if self.reference {

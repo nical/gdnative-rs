@@ -3,9 +3,9 @@ extern crate gdnative as godot;
 
 
 gdclass! {
-    class RustTest: godot::types::MeshInstance {
+    class RustTest: godot::MeshInstance {
         fields {
-            start: godot::types::Vector3,
+            start: godot::Vector3,
             time: f32,
             rotate_speed: f64,
         }
@@ -45,7 +45,7 @@ gdclass! {
         constructor(godot_info) {
             RustTest {
                 godot_info: godot_info,
-                start: godot::types::Vector3::new(0.0, 0.0, 0.0),
+                start: godot::Vector3::new(0.0, 0.0, 0.0),
                 time: 0.0,
                 rotate_speed: 0.05,
             }
@@ -62,7 +62,7 @@ gdclass! {
         }
 
         export fn _physics_process(&mut self, delta: f64) {
-            use godot::types::{NodePath, Color, Spatial, SpatialMaterial, Vector3};
+            use godot::{NodePath, Color, Spatial, SpatialMaterial, Vector3};
             self.time += delta as f32;
             let p = self.godot_parent();
             p.rotate_y(self.rotate_speed);
