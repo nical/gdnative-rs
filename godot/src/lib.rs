@@ -5,6 +5,8 @@ pub extern crate godot_sys as sys;
 #[macro_use]
 extern crate bitflags;
 
+pub extern crate gdnative_geom as geom;
+
 #[macro_export]
 macro_rules! gprint_warn {
     ($($args:tt)*) => ({

@@ -7,6 +7,7 @@ workspace = ".."
 
 [dependencies]
 godot-sys = {path = "../godot-sys" }
+gdnative_geom = { path = "../geom" }
 libc = "0.2"
 bitflags = "1.0"
 

@@ -2,13 +2,9 @@
 use super::*;
 use std::sync::{Once, ONCE_INIT};
 use std::ops::*;
-use std::cmp::Ordering;
-use std::fmt::{self, Formatter, Debug};
 
-mod vector3;
-pub use self::vector3::*;
-mod vector2;
-pub use self::vector2::*;
+pub use geom::*;
+
 mod variant;
 pub use self::variant::*;
 
