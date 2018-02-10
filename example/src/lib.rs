@@ -2,7 +2,7 @@
 extern crate gdnative as godot;
 
 
-gdclass! {
+godot_class! {
     class RustTest: godot::MeshInstance {
         fields {
             start: godot::Vector3,

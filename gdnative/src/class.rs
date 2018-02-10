@@ -4,16 +4,16 @@ use std::ops::Deref;
 
 #[macro_export]
 #[doc(hidden)]
-macro_rules! gdclass_count_params {
+macro_rules! godot_class_count_params {
     () => (0);
     ($name:ident, $($other:ident,)*) => (
-        1 + gdclass_count_params!($($other,)*)
+        1 + godot_class_count_params!($($other,)*)
     )
 }
 
 #[macro_export]
 #[doc(hidden)]
-macro_rules! gdclass_build_export_methods {
+macro_rules! godot_class_build_export_methods {
     ($classty:ty, $class:ident, $desc:ident,) => ();
     ($classty:ty, $class:ident, $desc:ident,
         export fn $name:ident(
@@ -22,7 +22,7 @@ macro_rules! gdclass_build_export_methods {
         ) $body:block
         $($tt:tt)*
     ) => (
-        gdclass_build_export_methods!($classty, $class, $desc,
+        godot_class_build_export_methods!($classty, $class, $desc,
             export fn $name(&mut self $(,$pname : $pty)*) -> () $body
             $($tt)*
         );
@@ -48,7 +48,7 @@ macro_rules! gdclass_build_export_methods {
                 unsafe {
                     let api = $crate::get_api();
 
-                    let num_params = gdclass_count_params!($($pname,)*);
+                    let num_params = godot_class_count_params!($($pname,)*);
                     if num_args < num_params {
                         gprint_error!("Incorrect number of parameters: got {} and wanted {}", num_args, num_params);
                         let mut ret = $crate::sys::godot_variant::default();
@@ -109,12 +109,12 @@ macro_rules! gdclass_build_export_methods {
                 method
             );
         }
-        gdclass_build_export_methods!($classty, $class, $desc, $($tt)*);
+        godot_class_build_export_methods!($classty, $class, $desc, $($tt)*);
     )
 }
 #[macro_export]
 #[doc(hidden)]
-macro_rules! gdclass_build_methods {
+macro_rules! godot_class_build_methods {
     () => ();
     (
         export fn $name:ident(
@@ -123,7 +123,7 @@ macro_rules! gdclass_build_methods {
         ) $body:block
         $($tt:tt)*
     ) => (
-        gdclass_build_methods!(
+        godot_class_build_methods!(
             export fn $name(&mut $self$(,$pname : $pty)*) -> () $body
             $($tt)*
         );
@@ -138,12 +138,12 @@ macro_rules! gdclass_build_methods {
         pub fn $name(&mut $self$(
             ,$pname : $pty
         )*) -> $retty $body
-        gdclass_build_methods!($($tt)*);
+        godot_class_build_methods!($($tt)*);
     )
 }
 
 #[macro_export]
-macro_rules! gdclass {
+macro_rules! godot_class {
     (
 class $name:ident: $parent:ty {
     fields {
@@ -167,7 +167,7 @@ class $name:ident: $parent:ty {
         }
 
         impl $name {
-            gdclass_build_methods!($($tt)*);
+            godot_class_build_methods!($($tt)*);
 
             pub fn godot_parent(&self) -> $crate::GodotRef<$parent> {
                 unsafe {
@@ -241,7 +241,7 @@ class $name:ident: $parent:ty {
                     destroy
                 );
 
-                gdclass_build_export_methods!($name, cname, desc, $($tt)*);
+                godot_class_build_export_methods!($name, cname, desc, $($tt)*);
 
                 let mut $builder: $crate::PropertiesBuilder<$name>  = $crate::PropertiesBuilder {
                     desc: desc,
