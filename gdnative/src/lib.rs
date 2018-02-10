@@ -8,7 +8,7 @@ extern crate bitflags;
 pub extern crate gdnative_geom as geom;
 
 #[macro_export]
-macro_rules! gprint_warn {
+macro_rules! godot_warn {
     ($($args:tt)*) => ({
         let msg = format!($($args)*);
         let line = line!();
@@ -28,7 +28,7 @@ macro_rules! gprint_warn {
     })
 }
 #[macro_export]
-macro_rules! gprint_error {
+macro_rules! godot_error {
     ($($args:tt)*) => ({
         let msg = format!($($args)*);
         let line = line!();
@@ -70,7 +70,7 @@ pub fn get_api() -> &'static GodotApi {
 }
 
 #[macro_export]
-macro_rules! gd_init {
+macro_rules! godot_init {
     (
         $(
             $class:ty

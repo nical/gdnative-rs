@@ -50,7 +50,7 @@ macro_rules! godot_class_build_export_methods {
 
                     let num_params = godot_class_count_params!($($pname,)*);
                     if num_args < num_params {
-                        gprint_error!("Incorrect number of parameters: got {} and wanted {}", num_args, num_params);
+                        godot_error!("Incorrect number of parameters: got {} and wanted {}", num_args, num_params);
                         let mut ret = $crate::sys::godot_variant::default();
                         (api.godot_variant_new_nil)(&mut ret);
                         return ret;
@@ -60,7 +60,7 @@ macro_rules! godot_class_build_export_methods {
                         let $pname = if let Some(val) = <$pty as $crate::GodotType>::from_variant(&mut *(*args).offset(offset)) {
                             val
                         } else {
-                            gprint_error!("Incorrect parameter type for parameter {}", offset);
+                            godot_error!("Incorrect parameter type for parameter {}", offset);
                             let mut ret = $crate::sys::godot_variant::default();
                             (api.godot_variant_new_nil)(&mut ret);
                             return ret;
@@ -83,7 +83,7 @@ macro_rules! godot_class_build_export_methods {
                             } else {
                                 "Unknown".to_owned()
                             };
-                            gprint_error!("Method call failed, everything may be in an invalid state: {:?}", err);
+                            godot_error!("Method call failed, everything may be in an invalid state: {:?}", err);
                             let mut ret = $crate::sys::godot_variant::default();
                             (api.godot_variant_new_nil)(&mut ret);
                             return ret;
@@ -313,7 +313,7 @@ impl <T> GodotRef<T>
     pub unsafe fn from_object(obj: *mut sys::godot_object) -> GodotRef<T> {
         let reference = Self::is_class(obj, "Reference");
         if reference && !call_bool!(obj, Reference, init_ref) {
-            gprint_error!("Failed to init reference");
+            godot_error!("Failed to init reference");
         }
         GodotRef {
             this: obj,

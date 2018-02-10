@@ -55,8 +55,8 @@ godot_class! {
             let p = self.godot_parent();
             p.set_physics_process(true);
             self.start = p.get_translation();
-            gprint_warn!("Start: {:?}", self.start);
-            gprint_warn!("Parent name: {:?}", p.get_parent()
+            godot_warn!("Start: {:?}", self.start);
+            godot_warn!("Parent name: {:?}", p.get_parent()
                 .expect("Missing parent")
                 .get_name());
         }
@@ -77,12 +77,12 @@ godot_class! {
                 let mat = mat.cast::<SpatialMaterial>().expect("Incorrect material");
                 mat.set_albedo(Color::new_rgba(self.time.cos().abs(), 0.0, 0.0, 1.0));
             } else {
-                gprint_warn!("No material");
+                godot_warn!("No material");
             }
         }
     }
 }
 
-gd_init! {
+godot_init! {
     RustTest
 }

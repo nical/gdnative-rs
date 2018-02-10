@@ -306,7 +306,7 @@ unsafe impl <F, C, T> GodotSetFunction<C, T> for F
                 if let Some(val) = T::from_variant(&mut *val) {
                     func(&mut *rust_ty, val);
                 } else {
-                    gprint_error!("Incorrect type passed to property");
+                    godot_error!("Incorrect type passed to property");
                 }
             }
         }
