@@ -8,4 +8,4 @@ workspace = ".."
 crate-type = ["cdylib"]
 
 [dependencies]
-godot = {path = "../godot"}
+gdnative = { path = "../gdnative" }

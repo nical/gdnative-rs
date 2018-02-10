@@ -1,5 +1,5 @@
 [package]
-name = "godot-sys"
+name = "gdnative-sys"
 version = "0.1.0"
 authors = ["Matthew Collins <thethinkofdeath@gmail.com>"]
 build = "build.rs"

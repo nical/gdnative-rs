@@ -1,5 +1,5 @@
 #[macro_use]
-extern crate godot;
+extern crate gdnative as godot;
 
 
 gdclass! {

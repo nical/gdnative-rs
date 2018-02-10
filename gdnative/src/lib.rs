@@ -1,7 +1,7 @@
 #[doc(hidden)]
 pub extern crate libc;
 #[doc(hidden)]
-pub extern crate godot_sys as sys;
+pub extern crate gdnative_sys as sys;
 #[macro_use]
 extern crate bitflags;
 

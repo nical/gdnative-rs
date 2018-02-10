@@ -1,12 +1,12 @@
 [package]
-name = "godot"
+name = "gdnative"
 version = "0.1.0"
 authors = ["Matthew Collins <thethinkofdeath@gmail.com>"]
 license = "MIT"
 workspace = ".."
 
 [dependencies]
-godot-sys = {path = "../godot-sys" }
+gdnative-sys = { path = "../sys" }
 gdnative_geom = { path = "../geom" }
 libc = "0.2"
 bitflags = "1.0"
