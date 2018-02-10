@@ -1,7 +1,8 @@
 [package]
-name = "gdnative"
+name = "gdnative-example"
 version = "0.1.0"
 authors = ["Matthew Collins <thethinkofdeath@gmail.com>"]
+workspace = ".."
 
 [lib]
 crate-type = ["cdylib"]

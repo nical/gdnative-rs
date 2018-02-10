@@ -3,6 +3,7 @@ name = "godot-sys"
 version = "0.1.0"
 authors = ["Matthew Collins <thethinkofdeath@gmail.com>"]
 build = "build.rs"
+workspace = ".."
 
 [dependencies]
 libc = "0.2"

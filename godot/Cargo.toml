@@ -2,10 +2,12 @@
 name = "godot"
 version = "0.1.0"
 authors = ["Matthew Collins <thethinkofdeath@gmail.com>"]
+license = "MIT"
+workspace = ".."
 
 [dependencies]
+godot-sys = {path = "../godot-sys" }
 libc = "0.2"
-godot-sys = {path = "./godot-sys" }
 bitflags = "1.0"
 
 [build-dependencies]
